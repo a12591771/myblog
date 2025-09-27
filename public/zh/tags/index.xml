@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>标签 on SSH&#39;s Blog</title>
-    <link>http://localhost:1313/zh/tags/</link>
+    <link>https://a12591771.github.io/myblog/zh/tags/</link>
     <description>Recent content in 标签 on SSH&#39;s Blog</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>zh</language>
     <lastBuildDate>Sat, 27 Sep 2025 19:10:00 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/zh/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://a12591771.github.io/myblog/zh/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hugo</title>
-      <link>http://localhost:1313/zh/tags/hugo/</link>
+      <link>https://a12591771.github.io/myblog/zh/tags/hugo/</link>
       <pubDate>Sat, 27 Sep 2025 19:10:00 +0800</pubDate>
-      <guid>http://localhost:1313/zh/tags/hugo/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/tags/hugo/</guid>
       <description></description>
     </item>
     <item>
       <title>Mermaid</title>
-      <link>http://localhost:1313/zh/tags/mermaid/</link>
+      <link>https://a12591771.github.io/myblog/zh/tags/mermaid/</link>
       <pubDate>Sat, 27 Sep 2025 19:10:00 +0800</pubDate>
-      <guid>http://localhost:1313/zh/tags/mermaid/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/tags/mermaid/</guid>
       <description></description>
     </item>
     <item>
       <title>教程</title>
-      <link>http://localhost:1313/zh/tags/%E6%95%99%E7%A8%8B/</link>
+      <link>https://a12591771.github.io/myblog/zh/tags/%E6%95%99%E7%A8%8B/</link>
       <pubDate>Sat, 27 Sep 2025 19:10:00 +0800</pubDate>
-      <guid>http://localhost:1313/zh/tags/%E6%95%99%E7%A8%8B/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/tags/%E6%95%99%E7%A8%8B/</guid>
       <description></description>
     </item>
     <item>
       <title>图表</title>
-      <link>http://localhost:1313/zh/tags/%E5%9B%BE%E8%A1%A8/</link>
+      <link>https://a12591771.github.io/myblog/zh/tags/%E5%9B%BE%E8%A1%A8/</link>
       <pubDate>Sat, 27 Sep 2025 19:10:00 +0800</pubDate>
-      <guid>http://localhost:1313/zh/tags/%E5%9B%BE%E8%A1%A8/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/tags/%E5%9B%BE%E8%A1%A8/</guid>
       <description></description>
     </item>
     <item>
       <title>KaTeX</title>
-      <link>http://localhost:1313/zh/tags/katex/</link>
+      <link>https://a12591771.github.io/myblog/zh/tags/katex/</link>
       <pubDate>Sat, 27 Sep 2025 19:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/zh/tags/katex/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/tags/katex/</guid>
       <description></description>
     </item>
     <item>
       <title>数学</title>
-      <link>http://localhost:1313/zh/tags/%E6%95%B0%E5%AD%A6/</link>
+      <link>https://a12591771.github.io/myblog/zh/tags/%E6%95%B0%E5%AD%A6/</link>
       <pubDate>Sat, 27 Sep 2025 19:00:00 +0800</pubDate>
-      <guid>http://localhost:1313/zh/tags/%E6%95%B0%E5%AD%A6/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/tags/%E6%95%B0%E5%AD%A6/</guid>
       <description></description>
     </item>
     <item>
       <title>博客</title>
-      <link>http://localhost:1313/zh/tags/%E5%8D%9A%E5%AE%A2/</link>
+      <link>https://a12591771.github.io/myblog/zh/tags/%E5%8D%9A%E5%AE%A2/</link>
       <pubDate>Thu, 25 Sep 2025 16:16:49 +0800</pubDate>
-      <guid>http://localhost:1313/zh/tags/%E5%8D%9A%E5%AE%A2/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/tags/%E5%8D%9A%E5%AE%A2/</guid>
       <description></description>
     </item>
     <item>
       <title>测试</title>
-      <link>http://localhost:1313/zh/tags/%E6%B5%8B%E8%AF%95/</link>
+      <link>https://a12591771.github.io/myblog/zh/tags/%E6%B5%8B%E8%AF%95/</link>
       <pubDate>Thu, 25 Sep 2025 16:16:49 +0800</pubDate>
-      <guid>http://localhost:1313/zh/tags/%E6%B5%8B%E8%AF%95/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/tags/%E6%B5%8B%E8%AF%95/</guid>
       <description></description>
     </item>
   </channel>

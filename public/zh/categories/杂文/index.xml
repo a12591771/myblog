@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>杂文 on SSH&#39;s Blog</title>
-    <link>http://localhost:1313/zh/categories/%E6%9D%82%E6%96%87/</link>
+    <link>https://a12591771.github.io/myblog/zh/categories/%E6%9D%82%E6%96%87/</link>
     <description>Recent content in 杂文 on SSH&#39;s Blog</description>
     <generator>Hugo -- 0.150.0</generator>
     <language>zh</language>
     <lastBuildDate>Thu, 25 Sep 2025 16:16:49 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/zh/categories/%E6%9D%82%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://a12591771.github.io/myblog/zh/categories/%E6%9D%82%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hello World</title>
-      <link>http://localhost:1313/zh/posts/hello-world/</link>
+      <link>https://a12591771.github.io/myblog/zh/posts/hello-world/</link>
       <pubDate>Thu, 25 Sep 2025 16:16:49 +0800</pubDate>
-      <guid>http://localhost:1313/zh/posts/hello-world/</guid>
+      <guid>https://a12591771.github.io/myblog/zh/posts/hello-world/</guid>
       <description>我的第一篇博客文章</description>
       <content:encoded><![CDATA[<h1 id="hello-world">Hello, World!</h1>
 <p>欢迎来到我的博客！这是我的第一篇文章。</p>

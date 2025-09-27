@@ -2,115 +2,115 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/tags/blog/</loc>
+    <loc>https://a12591771.github.io/myblog/tags/blog/</loc>
     <lastmod>2025-09-25T16:16:49+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2025-09-25T16:16:49+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="http://localhost:1313/zh/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="http://localhost:1313/categories/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/categories/essays/</loc>
-    <lastmod>2025-09-25T16:16:49+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/hello-world/</loc>
+    <loc>https://a12591771.github.io/myblog/categories/</loc>
     <lastmod>2025-09-25T16:16:49+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/posts/hello-world/"
+                href="https://a12591771.github.io/myblog/zh/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/posts/hello-world/"
+                href="https://a12591771.github.io/myblog/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/tags/hugo/</loc>
+    <loc>https://a12591771.github.io/myblog/categories/essays/</loc>
+    <lastmod>2025-09-25T16:16:49+08:00</lastmod>
+  </url><url>
+    <loc>https://a12591771.github.io/myblog/posts/hello-world/</loc>
     <lastmod>2025-09-25T16:16:49+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/hugo/"
+                href="https://a12591771.github.io/myblog/zh/posts/hello-world/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/hugo/"
+                href="https://a12591771.github.io/myblog/posts/hello-world/"
                 />
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://a12591771.github.io/myblog/tags/hugo/</loc>
     <lastmod>2025-09-25T16:16:49+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/posts/"
+                href="https://a12591771.github.io/myblog/zh/tags/hugo/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/posts/"
+                href="https://a12591771.github.io/myblog/tags/hugo/"
                 />
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://a12591771.github.io/myblog/posts/</loc>
     <lastmod>2025-09-25T16:16:49+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/"
+                href="https://a12591771.github.io/myblog/zh/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/"
+                href="https://a12591771.github.io/myblog/posts/"
                 />
   </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>https://a12591771.github.io/myblog/</loc>
     <lastmod>2025-09-25T16:16:49+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/tags/"
+                href="https://a12591771.github.io/myblog/zh/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/"
+                href="https://a12591771.github.io/myblog/"
                 />
   </url><url>
-    <loc>http://localhost:1313/tags/test/</loc>
+    <loc>https://a12591771.github.io/myblog/tags/</loc>
+    <lastmod>2025-09-25T16:16:49+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://a12591771.github.io/myblog/zh/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://a12591771.github.io/myblog/tags/"
+                />
+  </url><url>
+    <loc>https://a12591771.github.io/myblog/tags/test/</loc>
     <lastmod>2025-09-25T16:16:49+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/archive/</loc>
+    <loc>https://a12591771.github.io/myblog/archive/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/archive/"
+                href="https://a12591771.github.io/myblog/zh/archive/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/archive/"
+                href="https://a12591771.github.io/myblog/archive/"
                 />
   </url><url>
-    <loc>http://localhost:1313/search/</loc>
+    <loc>https://a12591771.github.io/myblog/search/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="http://localhost:1313/zh/search/"
+                href="https://a12591771.github.io/myblog/zh/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/search/"
+                href="https://a12591771.github.io/myblog/search/"
                 />
   </url>
 </urlset>
