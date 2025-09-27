@@ -60,6 +60,7 @@ defaultContentLanguageInSubdir = true
 [languages]
 
   [languages.zh]
+    baseURL = "https://a12591771.github.io/myblog/zh/"
     languageName = "简体中文"
     weight = 1
 
@@ -82,6 +83,7 @@ defaultContentLanguageInSubdir = true
         weight = 40
 
   [languages.en]
+    baseURL = "https://a12591771.github.io/myblog/en/"
     languageName = "English"
     weight = 2
 
