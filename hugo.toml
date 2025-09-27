@@ -1,4 +1,4 @@
-baseURL = "https://a12591771.github.io/myblog/zh/"
+baseURL = "https://a12591771.github.io/myblog/"
 title = "SSH's Blog"
 theme = "PaperMod"
 [pagination]
