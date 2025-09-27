@@ -83,7 +83,7 @@ defaultContentLanguageInSubdir = true
         weight = 40
 
   [languages.en]
-    baseURL = "https://a12591771.github.io/myblog/en/"
+    baseURL = "https://a12591771.github.io/myblog" # 默认英文页面，不需要/en/后缀
     languageName = "English"
     weight = 2
 
