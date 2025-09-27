@@ -1,4 +1,4 @@
-baseURL = "https://a12591771.github.io/myblog"
+baseURL = "https://a12591771.github.io/myblog/zh/"
 title = "SSH's Blog"
 theme = "PaperMod"
 [pagination]
@@ -83,7 +83,7 @@ defaultContentLanguageInSubdir = true
         weight = 40
 
   [languages.en]
-    baseURL = "https://a12591771.github.io/myblog" # 默认英文页面，不需要/en/后缀
+    baseURL = "https://a12591771.github.io/myblog/en/"
     languageName = "English"
     weight = 2
 
