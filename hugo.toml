@@ -1,0 +1,119 @@
+baseURL = "https://a12591771.github.io/"
+title = "SSH's Blog"
+theme = "PaperMod"
+[pagination]
+pagerSize = 10
+
+# 语言：中文为默认语言放根路径
+defaultContentLanguage = "zh"
+defaultContentLanguageInSubdir = true
+
+# 让首页支持 JSON（PaperMod 搜索要用），同时保证生成 HTML
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[params]
+  env = "production"
+  defaultTheme = "auto"         # auto | light | dark
+  ShowReadingTime = true
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowFullTextinRSS = true
+  math = true
+  ShowLanguageSelector = true         # 可选：多语言切换
+  search = true                       # 打开搜索（PaperMod）
+  ShowToc = true                      # 全局显示目录
+  TocOpen = false                     # 目录默认折叠
+  [params.fuseOpts]                   # Fuse.js 选项，按需调整
+    isCaseSensitive = false
+    shouldSort = true
+    includeMatches = true
+    threshold = 0.4                   # 匹配阈值，越小越严格
+    minMatchCharLength = 2
+
+  # ✅ 首页简介（没有文章时也能渲染首页）
+[languages.zh.params.homeInfoParams]
+    Title = "你好，我是 SSH"
+    Content = "欢迎来到我的博客 👋 这是基于 Hugo + PaperMod 的站点。"
+
+[languages.en.params.homeInfoParams]
+    Title = "Hello 👋"
+    Content = "This is the English intro."
+
+  # 顶部左上角 Logo / 文本
+  [params.label]
+    text = "SSH's Blog"
+    icon = "/favicon-32x32.png"
+    iconHeight = 26
+
+  # 站点图标与主题色
+  [params.assets]
+    favicon = "/favicon.ico"
+    theme_color = "#ffffff"
+
+  # 社交图标示例（RSS、GitHub）
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/a12591771"
+
+[languages]
+
+  [languages.zh]
+    languageName = "简体中文"
+    weight = 1
+
+    [languages.zh.menu]
+      [[languages.zh.menu.main]]
+        name = "归档"
+        url = "/archive/"
+        weight = 10
+      [[languages.zh.menu.main]]
+        name = "搜索"
+        url = "/search/"
+        weight = 20
+      [[languages.zh.menu.main]]
+        name = "标签"
+        url = "/tags/"
+        weight = 30
+      [[languages.zh.menu.main]]
+        name = "分类"
+        url = "/categories/"
+        weight = 40
+
+  [languages.en]
+    languageName = "English"
+    weight = 2
+
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        name = "Archive"
+        url = "/archive/"
+        weight = 10
+      [[languages.en.menu.main]]
+        name = "Search"
+        url = "/search/"
+        weight = 20
+      [[languages.en.menu.main]]
+        name = "Tags"
+        url = "/tags/"
+        weight = 30
+      [[languages.en.menu.main]]
+        name = "Categories"
+        url = "/categories/"
+        weight = 40
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [["\\[", "\\]"], ["$$", "$$"]]
+          inline = [["\\(", "\\)"], ["$", "$"]]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false

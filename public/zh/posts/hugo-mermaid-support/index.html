@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Hugo Mermaid 图表支持：完整实现指南 | SSH&#39;s Blog</title>
+<meta name="keywords" content="Hugo, Mermaid, 图表, 教程">
+<meta name="description" content="详细介绍如何在 Hugo 中集成 Mermaid 图表功能，包含完整配置代码和各类图表测试示例">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/zh/posts/hugo-mermaid-support/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b489a6d73b9d5f542e10296b5fbfe24c07a73618c7ca7efba908fadedc6200f9.css" integrity="sha256-tImm1zudX1QuEClrX7/iTAenNhjHyn77qQj63txiAPk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#ffffff">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://localhost:1313/zh/posts/hugo-mermaid-support/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous"><meta property="og:url" content="http://localhost:1313/zh/posts/hugo-mermaid-support/">
+  <meta property="og:site_name" content="SSH&#39;s Blog">
+  <meta property="og:title" content="Hugo Mermaid 图表支持：完整实现指南">
+  <meta property="og:description" content="详细介绍如何在 Hugo 中集成 Mermaid 图表功能，包含完整配置代码和各类图表测试示例">
+  <meta property="og:locale" content="zh">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-09-27T19:10:00+08:00">
+    <meta property="article:modified_time" content="2025-09-27T19:10:00+08:00">
+    <meta property="article:tag" content="Hugo">
+    <meta property="article:tag" content="Mermaid">
+    <meta property="article:tag" content="图表">
+    <meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hugo Mermaid 图表支持：完整实现指南">
+<meta name="twitter:description" content="详细介绍如何在 Hugo 中集成 Mermaid 图表功能，包含完整配置代码和各类图表测试示例">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/zh/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Hugo Mermaid 图表支持：完整实现指南",
+      "item": "http://localhost:1313/zh/posts/hugo-mermaid-support/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Hugo Mermaid 图表支持：完整实现指南",
+  "name": "Hugo Mermaid 图表支持：完整实现指南",
+  "description": "详细介绍如何在 Hugo 中集成 Mermaid 图表功能，包含完整配置代码和各类图表测试示例",
+  "keywords": [
+    "Hugo", "Mermaid", "图表", "教程"
+  ],
+  "articleBody": "概述 Hugo 通过 render hooks 机制官方支持 Mermaid 图表渲染。这是 Hugo 核心功能的一部分，不依赖特定主题，可在任何 Hugo 站点中实现。\n技术背景 Hugo 官方支持：通过 Markdown render hooks 实现 主题无关：适用于所有 Hugo 主题，不需要主题特定功能 渲染引擎：使用官方 Mermaid JavaScript 库 按需加载：仅在包含 Mermaid 图表的页面加载相关资源 实现步骤 1. 创建 Mermaid Render Hook 创建 layouts/_markup/render-codeblock-mermaid.html：\n\u003cdiv style=\"text-align: center;\"\u003e \u003cpre class=\"mermaid\"\u003e {{ .Inner | htmlEscape | safeHTML }} \u003c/pre\u003e \u003c/div\u003e {{ .Page.Store.Set \"hasMermaid\" true }} 2. 配置按需脚本加载 在 layouts/partials/extend_footer.html 中添加：\n{{- /* 按需加载 Mermaid 脚本 */ -}} {{- if .Store.Get \"hasMermaid\" -}} \u003cscript type=\"module\"\u003e import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs'; mermaid.initialize({ startOnLoad: true }); \u003c/script\u003e {{- end -}} 3. 使用语法 在 Markdown 文档中使用 ```mermaid 代码块：\n```mermaid graph TD A[开始] --\u003e B{条件判断} B --\u003e|是| C[执行操作] B --\u003e|否| D[跳过操作] C --\u003e E[结束] D --\u003e E ``` 支持的图表类型 1. 流程图 (Flowchart) flowchart TD A[开始] --\u003e B{用户已登录?} B --\u003e|是| C[显示仪表板] B --\u003e|否| D[跳转登录页] C --\u003e E[加载用户数据] D --\u003e F[用户登录] F --\u003e G{登录成功?} G --\u003e|是| C G --\u003e|否| H[显示错误信息] H --\u003e D E --\u003e I[渲染页面] I --\u003e J[结束] 2. 时序图 (Sequence Diagram) sequenceDiagram participant 用户 participant 前端 participant API participant 数据库 用户-\u003e\u003e前端: 提交登录表单 前端-\u003e\u003eAPI: 发送登录请求 API-\u003e\u003e数据库: 验证用户凭据 数据库--\u003e\u003eAPI: 返回验证结果 alt 验证成功 API--\u003e\u003e前端: 返回 JWT Token 前端--\u003e\u003e用户: 跳转到仪表板 else 验证失败 API--\u003e\u003e前端: 返回错误信息 前端--\u003e\u003e用户: 显示登录失败 end 3. 甘特图 (Gantt Chart) gantt title 项目开发计划 dateFormat YYYY-MM-DD section 需求分析 需求调研 :done, des1, 2024-01-01,2024-01-15 需求文档编写 :done, des2, after des1, 10d section 设计阶段 UI/UX 设计 :active, des3, 2024-01-20, 15d 系统架构设计 : des4, after des3, 10d section 开发阶段 前端开发 : dev1, after des4, 30d 后端开发 : dev2, after des4, 25d section 测试阶段 单元测试 : test1, after dev1, 10d 集成测试 : test2, after dev2, 15d 4. 状态图 (State Diagram) stateDiagram-v2 [*] --\u003e 未登录 未登录 --\u003e 登录中 : 提交登录 登录中 --\u003e 已登录 : 验证成功 登录中 --\u003e 未登录 : 验证失败 已登录 --\u003e 未登录 : 注销 state 已登录 { [*] --\u003e 空闲 空闲 --\u003e 工作中 : 开始任务 工作中 --\u003e 空闲 : 完成任务 工作中 --\u003e 暂停 : 暂停任务 暂停 --\u003e 工作中 : 恢复任务 } 5. 饼图 (Pie Chart) pie title 网站访问来源 \"搜索引擎\" : 45 \"直接访问\" : 25 \"社交媒体\" : 15 \"邮件营销\" : 10 \"其他\" : 5 高级配置 自定义样式 可以通过 CSS 自定义 Mermaid 图表样式：\n.mermaid { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; margin: 20px 0; } 主题配置 修改 Mermaid 初始化参数：\nmermaid.initialize({ startOnLoad: true, theme: 'neutral', // 可选: default, neutral, dark, forest themeVariables: { primaryColor: '#ff6b6b', primaryTextColor: '#fff', primaryBorderColor: '#ff4757', lineColor: '#5f27cd' } }); 性能优化 按需加载：脚本仅在包含 Mermaid 图表的页面加载 CDN 缓存：使用可靠的 CDN 服务提供商 版本锁定：指定具体版本号避免意外更新 常见问题 图表不显示 检查代码块语言标识符是否为 mermaid 确认 render hook 文件路径正确 检查浏览器控制台是否有 JavaScript 错误 样式问题 确认 CSS 加载顺序 检查主题是否覆盖了 Mermaid 样式 使用浏览器开发者工具调试样式 参考资料 Hugo Diagrams 官方文档 Mermaid 官方文档 Mermaid 语法参考 ",
+  "wordCount" : "414",
+  "inLanguage": "zh",
+  "datePublished": "2025-09-27T19:10:00+08:00",
+  "dateModified": "2025-09-27T19:10:00+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/zh/posts/hugo-mermaid-support/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "SSH's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/zh/" accesskey="h" title="SSH&#39;s Blog (Alt + H)">
+                <img src="http://localhost:1313/favicon-32x32.png" alt="" aria-label="logo"
+                    height="26">SSH&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="http://localhost:1313/" title="English"
+                            aria-label="English">En</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/zh/archive/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/zh/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/zh/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/zh/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/zh/">主页</a>&nbsp;»&nbsp;<a href="http://localhost:1313/zh/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Hugo Mermaid 图表支持：完整实现指南
+    </h1>
+    <div class="post-meta"><span title='2025-09-27 19:10:00 +0800 CST'>2025年9月27日</span>&nbsp;·&nbsp;2 分钟
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%a6%82%e8%bf%b0" aria-label="概述">概述</a></li>
+                <li>
+                    <a href="#%e6%8a%80%e6%9c%af%e8%83%8c%e6%99%af" aria-label="技术背景">技术背景</a></li>
+                <li>
+                    <a href="#%e5%ae%9e%e7%8e%b0%e6%ad%a5%e9%aa%a4" aria-label="实现步骤">实现步骤</a><ul>
+                        
+                <li>
+                    <a href="#1-%e5%88%9b%e5%bb%ba-mermaid-render-hook" aria-label="1. 创建 Mermaid Render Hook">1. 创建 Mermaid Render Hook</a></li>
+                <li>
+                    <a href="#2-%e9%85%8d%e7%bd%ae%e6%8c%89%e9%9c%80%e8%84%9a%e6%9c%ac%e5%8a%a0%e8%bd%bd" aria-label="2. 配置按需脚本加载">2. 配置按需脚本加载</a></li>
+                <li>
+                    <a href="#3-%e4%bd%bf%e7%94%a8%e8%af%ad%e6%b3%95" aria-label="3. 使用语法">3. 使用语法</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%94%af%e6%8c%81%e7%9a%84%e5%9b%be%e8%a1%a8%e7%b1%bb%e5%9e%8b" aria-label="支持的图表类型">支持的图表类型</a><ul>
+                        
+                <li>
+                    <a href="#1-%e6%b5%81%e7%a8%8b%e5%9b%be-flowchart" aria-label="1. 流程图 (Flowchart)">1. 流程图 (Flowchart)</a></li>
+                <li>
+                    <a href="#2-%e6%97%b6%e5%ba%8f%e5%9b%be-sequence-diagram" aria-label="2. 时序图 (Sequence Diagram)">2. 时序图 (Sequence Diagram)</a></li>
+                <li>
+                    <a href="#3-%e7%94%98%e7%89%b9%e5%9b%be-gantt-chart" aria-label="3. 甘特图 (Gantt Chart)">3. 甘特图 (Gantt Chart)</a></li>
+                <li>
+                    <a href="#4-%e7%8a%b6%e6%80%81%e5%9b%be-state-diagram" aria-label="4. 状态图 (State Diagram)">4. 状态图 (State Diagram)</a></li>
+                <li>
+                    <a href="#5-%e9%a5%bc%e5%9b%be-pie-chart" aria-label="5. 饼图 (Pie Chart)">5. 饼图 (Pie Chart)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e9%ab%98%e7%ba%a7%e9%85%8d%e7%bd%ae" aria-label="高级配置">高级配置</a><ul>
+                        
+                <li>
+                    <a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a0%b7%e5%bc%8f" aria-label="自定义样式">自定义样式</a></li>
+                <li>
+                    <a href="#%e4%b8%bb%e9%a2%98%e9%85%8d%e7%bd%ae" aria-label="主题配置">主题配置</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96" aria-label="性能优化">性能优化</a></li>
+                <li>
+                    <a href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98" aria-label="常见问题">常见问题</a><ul>
+                        
+                <li>
+                    <a href="#%e5%9b%be%e8%a1%a8%e4%b8%8d%e6%98%be%e7%a4%ba" aria-label="图表不显示">图表不显示</a></li>
+                <li>
+                    <a href="#%e6%a0%b7%e5%bc%8f%e9%97%ae%e9%a2%98" aria-label="样式问题">样式问题</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" aria-label="参考资料">参考资料</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="概述">概述<a hidden class="anchor" aria-hidden="true" href="#概述">#</a></h2>
+<p>Hugo 通过 <strong>render hooks</strong> 机制官方支持 Mermaid 图表渲染。这是 Hugo 核心功能的一部分，<strong>不依赖特定主题</strong>，可在任何 Hugo 站点中实现。</p>
+<h2 id="技术背景">技术背景<a hidden class="anchor" aria-hidden="true" href="#技术背景">#</a></h2>
+<ul>
+<li><strong>Hugo 官方支持</strong>：通过 Markdown render hooks 实现</li>
+<li><strong>主题无关</strong>：适用于所有 Hugo 主题，不需要主题特定功能</li>
+<li><strong>渲染引擎</strong>：使用官方 Mermaid JavaScript 库</li>
+<li><strong>按需加载</strong>：仅在包含 Mermaid 图表的页面加载相关资源</li>
+</ul>
+<h2 id="实现步骤">实现步骤<a hidden class="anchor" aria-hidden="true" href="#实现步骤">#</a></h2>
+<h3 id="1-创建-mermaid-render-hook">1. 创建 Mermaid Render Hook<a hidden class="anchor" aria-hidden="true" href="#1-创建-mermaid-render-hook">#</a></h3>
+<p>创建 <code>layouts/_markup/render-codeblock-mermaid.html</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text-align: center;&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">pre</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mermaid&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    {{ .Inner | htmlEscape | safeHTML }}
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">pre</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>{{ .Page.Store.Set &#34;hasMermaid&#34; true }}
+</span></span></code></pre></div><h3 id="2-配置按需脚本加载">2. 配置按需脚本加载<a hidden class="anchor" aria-hidden="true" href="#2-配置按需脚本加载">#</a></h3>
+<p>在 <code>layouts/partials/extend_footer.html</code> 中添加：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{{- /* 按需加载 Mermaid 脚本 */ -}}
+</span></span><span style="display:flex;"><span>{{- if .Store.Get &#34;hasMermaid&#34; -}}
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;module&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">import</span> <span style="color:#a6e22e">mermaid</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mermaid</span>.<span style="color:#a6e22e">initialize</span>({ <span style="color:#a6e22e">startOnLoad</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> });
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>{{- end -}}
+</span></span></code></pre></div><h3 id="3-使用语法">3. 使用语法<a hidden class="anchor" aria-hidden="true" href="#3-使用语法">#</a></h3>
+<p>在 Markdown 文档中使用 ```mermaid 代码块：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><span style="color:#e6db74">```mermaid
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>graph TD
+</span></span><span style="display:flex;"><span>    A[开始] --&gt; B{条件判断}
+</span></span><span style="display:flex;"><span>    B --&gt;|是| C[执行操作]
+</span></span><span style="display:flex;"><span>    B --&gt;|否| D[跳过操作]
+</span></span><span style="display:flex;"><span>    C --&gt; E[结束]
+</span></span><span style="display:flex;"><span>    D --&gt; E
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">```</span>
+</span></span></code></pre></div><h2 id="支持的图表类型">支持的图表类型<a hidden class="anchor" aria-hidden="true" href="#支持的图表类型">#</a></h2>
+<h3 id="1-流程图-flowchart">1. 流程图 (Flowchart)<a hidden class="anchor" aria-hidden="true" href="#1-流程图-flowchart">#</a></h3>
+<div style="text-align: center;">
+  <pre class="mermaid">
+    flowchart TD
+    A[开始] --&gt; B{用户已登录?}
+    B --&gt;|是| C[显示仪表板]
+    B --&gt;|否| D[跳转登录页]
+    C --&gt; E[加载用户数据]
+    D --&gt; F[用户登录]
+    F --&gt; G{登录成功?}
+    G --&gt;|是| C
+    G --&gt;|否| H[显示错误信息]
+    H --&gt; D
+    E --&gt; I[渲染页面]
+    I --&gt; J[结束]
+  </pre>
+</div>
+
+
+<h3 id="2-时序图-sequence-diagram">2. 时序图 (Sequence Diagram)<a hidden class="anchor" aria-hidden="true" href="#2-时序图-sequence-diagram">#</a></h3>
+<div style="text-align: center;">
+  <pre class="mermaid">
+    sequenceDiagram
+    participant 用户
+    participant 前端
+    participant API
+    participant 数据库
+    
+    用户-&gt;&gt;前端: 提交登录表单
+    前端-&gt;&gt;API: 发送登录请求
+    API-&gt;&gt;数据库: 验证用户凭据
+    数据库--&gt;&gt;API: 返回验证结果
+    
+    alt 验证成功
+        API--&gt;&gt;前端: 返回 JWT Token
+        前端--&gt;&gt;用户: 跳转到仪表板
+    else 验证失败
+        API--&gt;&gt;前端: 返回错误信息
+        前端--&gt;&gt;用户: 显示登录失败
+    end
+  </pre>
+</div>
+
+
+<h3 id="3-甘特图-gantt-chart">3. 甘特图 (Gantt Chart)<a hidden class="anchor" aria-hidden="true" href="#3-甘特图-gantt-chart">#</a></h3>
+<div style="text-align: center;">
+  <pre class="mermaid">
+    gantt
+    title 项目开发计划
+    dateFormat  YYYY-MM-DD
+    section 需求分析
+    需求调研           :done,    des1, 2024-01-01,2024-01-15
+    需求文档编写       :done,    des2, after des1, 10d
+    section 设计阶段
+    UI/UX 设计        :active,  des3, 2024-01-20, 15d
+    系统架构设计      :         des4, after des3, 10d
+    section 开发阶段
+    前端开发          :         dev1, after des4, 30d
+    后端开发          :         dev2, after des4, 25d
+    section 测试阶段
+    单元测试          :         test1, after dev1, 10d
+    集成测试          :         test2, after dev2, 15d
+  </pre>
+</div>
+
+
+<h3 id="4-状态图-state-diagram">4. 状态图 (State Diagram)<a hidden class="anchor" aria-hidden="true" href="#4-状态图-state-diagram">#</a></h3>
+<div style="text-align: center;">
+  <pre class="mermaid">
+    stateDiagram-v2
+    [*] --&gt; 未登录
+    未登录 --&gt; 登录中 : 提交登录
+    登录中 --&gt; 已登录 : 验证成功
+    登录中 --&gt; 未登录 : 验证失败
+    已登录 --&gt; 未登录 : 注销
+    
+    state 已登录 {
+        [*] --&gt; 空闲
+        空闲 --&gt; 工作中 : 开始任务
+        工作中 --&gt; 空闲 : 完成任务
+        工作中 --&gt; 暂停 : 暂停任务
+        暂停 --&gt; 工作中 : 恢复任务
+    }
+  </pre>
+</div>
+
+
+<h3 id="5-饼图-pie-chart">5. 饼图 (Pie Chart)<a hidden class="anchor" aria-hidden="true" href="#5-饼图-pie-chart">#</a></h3>
+<div style="text-align: center;">
+  <pre class="mermaid">
+    pie title 网站访问来源
+    &#34;搜索引擎&#34; : 45
+    &#34;直接访问&#34; : 25
+    &#34;社交媒体&#34; : 15
+    &#34;邮件营销&#34; : 10
+    &#34;其他&#34; : 5
+  </pre>
+</div>
+
+
+<h2 id="高级配置">高级配置<a hidden class="anchor" aria-hidden="true" href="#高级配置">#</a></h2>
+<h3 id="自定义样式">自定义样式<a hidden class="anchor" aria-hidden="true" href="#自定义样式">#</a></h3>
+<p>可以通过 CSS 自定义 Mermaid 图表样式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span>.<span style="color:#a6e22e">mermaid</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">background-color</span>: <span style="color:#ae81ff">#f8f9fa</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">border</span>: <span style="color:#ae81ff">1</span><span style="color:#66d9ef">px</span> <span style="color:#66d9ef">solid</span> <span style="color:#ae81ff">#e9ecef</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">border-radius</span>: <span style="color:#ae81ff">8</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">padding</span>: <span style="color:#ae81ff">20</span><span style="color:#66d9ef">px</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">margin</span>: <span style="color:#ae81ff">20</span><span style="color:#66d9ef">px</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="主题配置">主题配置<a hidden class="anchor" aria-hidden="true" href="#主题配置">#</a></h3>
+<p>修改 Mermaid 初始化参数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">mermaid</span>.<span style="color:#a6e22e">initialize</span>({ 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">startOnLoad</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">theme</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;neutral&#39;</span>,  <span style="color:#75715e">// 可选: default, neutral, dark, forest
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">themeVariables</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">primaryColor</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#ff6b6b&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">primaryTextColor</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#fff&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">primaryBorderColor</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#ff4757&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">lineColor</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;#5f27cd&#39;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h2 id="性能优化">性能优化<a hidden class="anchor" aria-hidden="true" href="#性能优化">#</a></h2>
+<ol>
+<li><strong>按需加载</strong>：脚本仅在包含 Mermaid 图表的页面加载</li>
+<li><strong>CDN 缓存</strong>：使用可靠的 CDN 服务提供商</li>
+<li><strong>版本锁定</strong>：指定具体版本号避免意外更新</li>
+</ol>
+<h2 id="常见问题">常见问题<a hidden class="anchor" aria-hidden="true" href="#常见问题">#</a></h2>
+<h3 id="图表不显示">图表不显示<a hidden class="anchor" aria-hidden="true" href="#图表不显示">#</a></h3>
+<ol>
+<li>检查代码块语言标识符是否为 <code>mermaid</code></li>
+<li>确认 render hook 文件路径正确</li>
+<li>检查浏览器控制台是否有 JavaScript 错误</li>
+</ol>
+<h3 id="样式问题">样式问题<a hidden class="anchor" aria-hidden="true" href="#样式问题">#</a></h3>
+<ol>
+<li>确认 CSS 加载顺序</li>
+<li>检查主题是否覆盖了 Mermaid 样式</li>
+<li>使用浏览器开发者工具调试样式</li>
+</ol>
+<h2 id="参考资料">参考资料<a hidden class="anchor" aria-hidden="true" href="#参考资料">#</a></h2>
+<ul>
+<li><a href="https://gohugo.io/content-management/diagrams/">Hugo Diagrams 官方文档</a></li>
+<li><a href="https://mermaid.js.org/">Mermaid 官方文档</a></li>
+<li><a href="https://mermaid.js.org/syntax/flowchart.html">Mermaid 语法参考</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/zh/tags/hugo/">Hugo</a></li>
+      <li><a href="http://localhost:1313/zh/tags/mermaid/">Mermaid</a></li>
+      <li><a href="http://localhost:1313/zh/tags/%E5%9B%BE%E8%A1%A8/">图表</a></li>
+      <li><a href="http://localhost:1313/zh/tags/%E6%95%99%E7%A8%8B/">教程</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://localhost:1313/zh/posts/hugo-math-support/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>Hugo 数学公式支持：KaTeX 集成完全指南</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/zh/">SSH&#39;s Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a><script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+          onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false},{left:'$',right:'$',display:false}]});"></script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

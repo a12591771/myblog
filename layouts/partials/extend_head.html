@@ -1,0 +1,5 @@
+{{- /* Site-level head extension: load KaTeX CSS when math is enabled */ -}}
+{{- if or (.Param "math") (site.Params.math) -}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+{{- end -}}
+

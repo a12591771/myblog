@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>SSH&#39;s Blog</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on SSH&#39;s Blog</description>
+    <generator>Hugo -- 0.150.0</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 25 Sep 2025 16:16:49 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello World</title>
+      <link>http://localhost:1313/posts/hello-world/</link>
+      <pubDate>Thu, 25 Sep 2025 16:16:49 +0800</pubDate>
+      <guid>http://localhost:1313/posts/hello-world/</guid>
+      <description>My first blog post</description>
+      <content:encoded><![CDATA[<h1 id="hello-world">Hello, World!</h1>
+<p>Welcome to my blog! This is my first post.</p>
+<h2 id="about-this-blog">About This Blog</h2>
+<p>This blog is built with Hugo and PaperMod theme, supporting both Chinese and English.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>🌍 Multi-language support</li>
+<li>🔍 Full-text search</li>
+<li>📂 Categories and tags</li>
+<li>📱 Responsive design</li>
+</ul>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>
